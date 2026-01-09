@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penny's Jams</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border: 4px solid #333;
+            transform: rotate(1deg);
+            margin-bottom: 2rem;
+            box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Essential Tunes</h1>
+            <p>Eardrum Survival Kit</p>
+        </header>
+
+        <div class="nav-cluster">
+            <a href="index.html" class="post-it green">Home Base<br><small>(Back)</small></a>
+            <a href="about.html" class="post-it yellow">Survival Tips<br><small>(About Me)</small></a>
+            <a href="socials.html" class="post-it blue">Connect<br><small>(Links)</small></a>
+        </div>
+
+        <div class="main-content">
+            <div class="paper-holes">
+                <div class="hole"></div>
+                <div class="hole"></div>
+                <div class="hole"></div>
+            </div>
+
+            <h2>Tip #42: Stan Talent</h2>
+            <p>
+                If you aren't listening to Big Bang, are you even living? Here are the tracks that get me through the
+                study sessions.
+            </p>
+
+            <div class="tip-box">
+                <h3>★ Now Playing</h3>
+                <p><strong>Artist:</strong> BIGBANG<br><strong>Status:</strong> Legends only.</p>
+            </div>
+
+            <p><strong>1. FANTASTIC BABY</strong> - The anthem.</p>
+            <div class="video-container">
+                <!-- Embedding Fantastic Baby -->
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/AAbokV76tkU"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <p><strong>2. BANG BANG BANG</strong> - For when you need to wake up.</p>
+            <div class="video-container" style="transform: rotate(-1deg);">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/2ips2mM7Zqw"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <p><em>More favorites coming soon... once I find my old iPod.</em></p>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

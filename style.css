@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+  /* Colors */
+  --postit-yellow: #fefda4;
+  --postit-pink: #ffbdc7;
+  --postit-blue: #bfefff;
+  --postit-green: #c0ffc0;
+  
+  --paper-bg: #fcfcfa;
+  --paper-line: #aaccff;
+  --paper-margin: #ffaaaa;
+  
+  --bg-color: #3b3b3b; /* Chalkboard Dk Gray */
+  --bg-texture: radial-gradient(#4a4a4a 15%, transparent 16%) 0 0,
+                radial-gradient(#4a4a4a 15%, transparent 16%) 8px 8px,
+                radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+                radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  
+  /* Fonts */
+  --font-marker: 'Permanent Marker', cursive;
+  --font-hand: 'Patrick Hand', cursive;
+  --font-typewriter: 'Courier Prime', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-hand);
+  background-color: var(--bg-color);
+  background-image: var(--bg-texture);
+  background-size: 16px 16px;
+  color: #333;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+  transform: rotate(-2deg);
+  z-index: 10;
+}
+
+header h1 {
+  font-family: var(--font-marker);
+  font-size: 3.5rem;
+  color: #fff;
+  text-shadow: 3px 3px 0px #000;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: #ff5555;
+  border: 4px solid #fff;
+  display: inline-block;
+  box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+}
+
+header p {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* Post-it Note Navigation */
+.nav-cluster {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 5;
+}
+
+.post-it {
+  width: 200px;
+  height: 200px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.8rem;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  font-family: var(--font-marker);
+  cursor: pointer;
+}
+
+.post-it:hover {
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 10px 10px 15px rgba(0,0,0,0.4);
+  z-index: 10;
+}
+
+.post-it::after {
+  /* Sticky tape effect or shadow curl */
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 20px;
+  background: rgba(255,255,255,0.4);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  display: none; /* Let's just use CSS properties for simplicity first */
+}
+
+.post-it.yellow { background-color: var(--postit-yellow); transform: rotate(-3deg); }
+.post-it.pink { background-color: var(--postit-pink); transform: rotate(4deg); }
+.post-it.blue { background-color: var(--postit-blue); transform: rotate(-5deg); }
+.post-it.green { background-color: var(--postit-green); transform: rotate(2deg); }
+
+/* Main Content Area - Loose Leaf Paper */
+.main-content {
+  background-color: var(--paper-bg);
+  width: 100%;
+  max-width: 800px;
+  min-height: 500px;
+  padding: 3rem 4rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+  
+  /* Lined Paper Lines */
+  background-image: 
+    linear-gradient(90deg, transparent 79px, var(--paper-margin) 79px, var(--paper-margin) 81px, transparent 81px),
+    linear-gradient(var(--paper-line) 1px, transparent 1px);
+  background-size: 100% 1.5rem;
+  line-height: 1.5rem;
+  margin-bottom: 2rem;
+  transform: rotate(1deg);
+}
+
+.paper-holes {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.hole {
+  width: 20px;
+  height: 20px;
+  background: var(--bg-color); /* Match body bg to look transparent */
+  border-radius: 50%;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.main-content h2 {
+  font-family: var(--font-marker);
+  font-size: 2.5rem;
+  margin-top: -0.5rem; /* Align with line */
+  margin-bottom: 1.5rem;
+  color: #d32f2f;
+  text-decoration: underline wavy;
+}
+
+.main-content p {
+  font-family: var(--font-typewriter);
+  font-size: 1.1rem;
+  line-height: 1.5rem; /* Match background size */
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* Tip Box generic style */
+.tip-box {
+  background: #fdfd96;
+  border: 2px dashed #333;
+  padding: 1rem;
+  margin: 1rem 0;
+  transform: rotate(-1deg);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+
+.tip-box h3 {
+  font-family: var(--font-marker);
+  margin-top: 0;
+  color: #ff5555;
+  text-transform: uppercase;
+}
+
+/* Utilitarian additions for grid layouts in pages */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  .nav-cluster {
+    gap: 1rem;
+  }
+  .post-it {
+    width: 140px;
+    height: 140px;
+    font-size: 1.4rem;
+  }
+  .main-content {
+    padding: 2rem 1.5rem;
+  }
+}
