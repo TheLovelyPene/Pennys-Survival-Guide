@@ -56,7 +56,7 @@
     <!-- Myspace Style Autoplay Player (Hidden) -->
     <div style="width: 1px; height: 1px; overflow: hidden; opacity: 0; position: absolute; left: -9999px;">
         <iframe id="myspace-player" width="1" height="1"
-            src="https://www.youtube.com/embed/8o4Zj98FeX4?enablejsapi=1&loop=1&playlist=8o4Zj98FeX4"
+            src="https://www.youtube.com/embed/qI-z04D0P5g?enablejsapi=1&loop=1&playlist=qI-z04D0P5g"
             title="Myspace Background Music" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
@@ -67,30 +67,46 @@
         onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
         <div class="post-it pink"
             style="padding: 10px; width: 100px; text-align: center; font-size: 0.8rem; transform: rotate(5deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
-            Click for Vibes! 🔊
+            Click for<br>BGM! 🔊
         </div>
     </div>
 
     <script>
         // Modern browsers block autoplay with sound until the user clicks something.
-        // This script listens for the first click to "unlock" the audio.
-        function startMusic() {
-            const player = document.getElementById('myspace-player');
-            const hint = document.getElementById('music-hint');
+        const player = document.getElementById('myspace-player');
+        const hint = document.getElementById('music-hint');
+        let musicStarted = false;
 
-            // Reload with autoplay=1
-            player.src += "&autoplay=1";
+        function startMusic() {
+            if (musicStarted) return;
+            musicStarted = true;
+
+            // Force reload with autoplay=1
+            player.src = "https://www.youtube.com/embed/qI-z04D0P5g?autoplay=1&loop=1&playlist=qI-z04D0P5g&enablejsapi=1";
 
             // Remove the hint
-            if (hint) hint.style.display = 'none';
+            if (hint) hint.style.opacity = '0';
+            setTimeout(() => { if (hint) hint.style.display = 'none'; }, 300);
 
             // Remove listeners
-            document.removeEventListener('click', startMusic);
+            document.removeEventListener('mousedown', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+            document.removeEventListener('keydown', startMusic);
         }
 
-        document.addEventListener('click', startMusic, { once: true });
+        // Listen for ANY interaction to start music
+        document.addEventListener('mousedown', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('keydown', startMusic);
+
         // Also listen specifically on the sticker
-        document.getElementById('music-hint').addEventListener('click', startMusic);
+        hint.addEventListener('click', startMusic);
+
+        // Pre-check: If browser somehow allows it, hide hint early
+        player.onload = function () {
+            // Note: We can't actually check if it's playing from here due to CORS,
+            // but we'll trust the click listeners.
+        };
     </script>
 </body>
 
