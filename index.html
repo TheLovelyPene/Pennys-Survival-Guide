@@ -53,12 +53,9 @@
         </div>
     </div>
 
-    <!-- Myspace Style Autoplay Player (Hidden) -->
-    <div style="width: 1px; height: 1px; overflow: hidden; opacity: 0; position: absolute; left: -9999px;">
-        <iframe id="myspace-player" width="1" height="1"
-            src="https://www.youtube.com/embed/qI-z04D0P5g?enablejsapi=1&loop=1&playlist=qI-z04D0P5g"
-            title="Myspace Background Music" frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <!-- Myspace Style Player Container (Hidden) -->
+    <div id="player-container" style="position: absolute; left: -9999px;">
+        <div id="youtube-player"></div>
     </div>
 
     <!-- Sticker to trigger sound -->
@@ -71,42 +68,60 @@
         </div>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Modern browsers block autoplay with sound until the user clicks something.
-        const player = document.getElementById('myspace-player');
-        const hint = document.getElementById('music-hint');
+        let player;
         let musicStarted = false;
 
-        function startMusic() {
-            if (musicStarted) return;
-            musicStarted = true;
-
-            // Force reload with autoplay=1
-            player.src = "https://www.youtube.com/embed/qI-z04D0P5g?autoplay=1&loop=1&playlist=qI-z04D0P5g&enablejsapi=1";
-
-            // Remove the hint
-            if (hint) hint.style.opacity = '0';
-            setTimeout(() => { if (hint) hint.style.display = 'none'; }, 300);
-
-            // Remove listeners
-            document.removeEventListener('mousedown', startMusic);
-            document.removeEventListener('touchstart', startMusic);
-            document.removeEventListener('keydown', startMusic);
+        // 1. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '1',
+                width: '1',
+                videoId: 'd5_jZ3b9gEw', // CL - Hello Bitches (Radio Edit)
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'd5_jZ3b9gEw',
+                    'enablejsapi': 1,
+                    'origin': window.location.origin
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
         }
 
-        // Listen for ANY interaction to start music
-        document.addEventListener('mousedown', startMusic);
-        document.addEventListener('touchstart', startMusic);
-        document.addEventListener('keydown', startMusic);
+        function onPlayerReady(event) {
+            // Player is ready! Now we wait for interaction.
+            document.addEventListener('mousedown', unlockAudio, { once: true });
+            document.addEventListener('touchstart', unlockAudio, { once: true });
+            document.addEventListener('keydown', unlockAudio, { once: true });
 
-        // Also listen specifically on the sticker
-        hint.addEventListener('click', startMusic);
+            // Also listen specifically on the sticker
+            const hint = document.getElementById('music-hint');
+            if (hint) {
+                hint.addEventListener('click', unlockAudio, { once: true });
+            }
+        }
 
-        // Pre-check: If browser somehow allows it, hide hint early
-        player.onload = function () {
-            // Note: We can't actually check if it's playing from here due to CORS,
-            // but we'll trust the click listeners.
-        };
+        function unlockAudio() {
+            if (musicStarted || !player) return;
+            musicStarted = true;
+
+            // Start the vibes
+            player.playVideo();
+            player.unMute();
+
+            // Hide the hint UI
+            const hint = document.getElementById('music-hint');
+            if (hint) {
+                hint.style.opacity = '0';
+                setTimeout(() => hint.style.display = 'none', 300);
+            }
+        }
     </script>
 </body>
 
