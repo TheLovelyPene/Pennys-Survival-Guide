@@ -55,12 +55,43 @@
 
     <!-- Myspace Style Autoplay Player (Hidden) -->
     <div style="width: 1px; height: 1px; overflow: hidden; opacity: 0; position: absolute; left: -9999px;">
-        <iframe width="1" height="1"
-            src="https://www.youtube.com/embed/8o4Zj98FeX4?autoplay=1&loop=1&playlist=8o4Zj98FeX4"
+        <iframe id="myspace-player" width="1" height="1"
+            src="https://www.youtube.com/embed/8o4Zj98FeX4?enablejsapi=1&loop=1&playlist=8o4Zj98FeX4"
             title="Myspace Background Music" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
 
+    <!-- Sticker to trigger sound -->
+    <div id="music-hint"
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; cursor: pointer; transition: transform 0.3s;"
+        onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <div class="post-it pink"
+            style="padding: 10px; width: 100px; text-align: center; font-size: 0.8rem; transform: rotate(5deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+            Click for Vibes! 🔊
+        </div>
+    </div>
+
+    <script>
+        // Modern browsers block autoplay with sound until the user clicks something.
+        // This script listens for the first click to "unlock" the audio.
+        function startMusic() {
+            const player = document.getElementById('myspace-player');
+            const hint = document.getElementById('music-hint');
+
+            // Reload with autoplay=1
+            player.src += "&autoplay=1";
+
+            // Remove the hint
+            if (hint) hint.style.display = 'none';
+
+            // Remove listeners
+            document.removeEventListener('click', startMusic);
+        }
+
+        document.addEventListener('click', startMusic, { once: true });
+        // Also listen specifically on the sticker
+        document.getElementById('music-hint').addEventListener('click', startMusic);
+    </script>
 </body>
 
 </html>
