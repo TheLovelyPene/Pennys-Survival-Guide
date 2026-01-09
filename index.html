@@ -53,10 +53,8 @@
         </div>
     </div>
 
-    <!-- Myspace Style Player Container (Hidden) -->
-    <div id="player-container" style="position: absolute; left: -9999px;">
-        <div id="youtube-player"></div>
-    </div>
+    <!-- Myspace Style Player Container (Hidden until click) -->
+    <div id="player-container"></div>
 
     <!-- Sticker to trigger sound -->
     <div id="music-hint"
@@ -68,60 +66,32 @@
         </div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        let player;
-        let musicStarted = false;
-
-        // 1. This function creates an <iframe> (and YouTube player)
-        //    after the API code downloads.
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '1',
-                width: '1',
-                videoId: 'd5_jZ3b9gEw', // CL - Hello Bitches (Radio Edit)
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': 'd5_jZ3b9gEw',
-                    'enablejsapi': 1,
-                    'origin': window.location.origin
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            // Player is ready! Now we wait for interaction.
-            document.addEventListener('mousedown', unlockAudio, { once: true });
-            document.addEventListener('touchstart', unlockAudio, { once: true });
-            document.addEventListener('keydown', unlockAudio, { once: true });
-
-            // Also listen specifically on the sticker
+        function playBGM() {
+            const container = document.getElementById('player-container');
             const hint = document.getElementById('music-hint');
-            if (hint) {
-                hint.addEventListener('click', unlockAudio, { once: true });
-            }
-        }
 
-        function unlockAudio() {
-            if (musicStarted || !player) return;
-            musicStarted = true;
+            // Create the iframe only when clicked to bypass ALL autoplay blocks
+            container.innerHTML = `
+                <div style="position: absolute; left: -9999px;">
+                    <iframe width="1" height="1" 
+                        src="https://www.youtube.com/embed/d5_jZ3b9gEw?autoplay=1&loop=1&playlist=d5_jZ3b9gEw&enablejsapi=1" 
+                        allow="autoplay"></iframe>
+                </div>
+            `;
 
-            // Start the vibes
-            player.playVideo();
-            player.unMute();
-
-            // Hide the hint UI
-            const hint = document.getElementById('music-hint');
+            // Hide the hint
             if (hint) {
                 hint.style.opacity = '0';
                 setTimeout(() => hint.style.display = 'none', 300);
             }
+
+            // Remove global listeners
+            document.removeEventListener('click', playBGM);
         }
+
+        // Listen for the first click on the document OR the sticker specifically
+        document.addEventListener('click', playBGM, { once: true });
     </script>
 </body>
 
