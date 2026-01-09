@@ -6,6 +6,7 @@
   --postit-pink: #ffbdc7;
   --postit-blue: #bfefff;
   --postit-green: #c0ffc0;
+  --postit-orange: #ffd8b1;
   
   --paper-bg: #fcfcfa;
   --paper-line: #aaccff;
@@ -132,6 +133,7 @@ header p {
 .post-it.pink { background-color: var(--postit-pink); transform: rotate(4deg); }
 .post-it.blue { background-color: var(--postit-blue); transform: rotate(-5deg); }
 .post-it.green { background-color: var(--postit-green); transform: rotate(2deg); }
+.post-it.orange { background-color: var(--postit-orange); transform: rotate(-2deg); }
 
 /* Main Content Area - Loose Leaf Paper */
 .main-content {
